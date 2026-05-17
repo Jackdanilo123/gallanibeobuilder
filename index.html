@@ -1,0 +1,1373 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GALLANI SUITES — BEO Builder</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0D1B2A;
+  --navy2:#152337;
+  --navy3:#1E3050;
+  --gold:#C9A84C;
+  --gold2:#E8C97A;
+  --gold3:#F5E4B0;
+  --cream:#FAF7F0;
+  --cream2:#F0EBE0;
+  --text:#1A1A2E;
+  --muted:#5E6E82;
+  --border:#D6CDB8;
+  --white:#FFFFFF;
+  --success:#1B6B45;
+  --success-bg:#EAF5EE;
+}
+body{font-family:'Jost',sans-serif;background:var(--cream);color:var(--text);min-height:100vh;font-size:14px}
+input,select,textarea{font-family:'Jost',sans-serif}
+
+/* ── HEADER ── */
+.site-header{background:var(--navy);padding:0 32px;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.4)}
+.brand{display:flex;flex-direction:column}
+.brand-name{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:700;color:var(--gold);letter-spacing:2px}
+.brand-sub{font-size:10px;font-weight:300;color:rgba(201,168,76,0.6);letter-spacing:3px;text-transform:uppercase}
+.beo-badge{background:rgba(201,168,76,0.15);border:1px solid rgba(201,168,76,0.4);color:var(--gold);font-size:11px;font-weight:500;letter-spacing:1.5px;padding:4px 14px;border-radius:2px;text-transform:uppercase}
+
+/* ── TABS ── */
+.tabs-bar{background:var(--navy2);padding:0 32px;display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid rgba(201,168,76,0.2)}
+.tab-btn{background:none;border:none;color:rgba(255,255,255,0.45);font-family:'Jost',sans-serif;font-size:12px;font-weight:500;letter-spacing:1.2px;text-transform:uppercase;padding:14px 18px;cursor:pointer;border-bottom:2px solid transparent;transition:all 0.2s;white-space:nowrap}
+.tab-btn:hover{color:rgba(255,255,255,0.75)}
+.tab-btn.active{color:var(--gold);border-bottom-color:var(--gold)}
+.tab-btn.preview-tab{color:rgba(201,168,76,0.7);margin-left:auto}
+.tab-btn.preview-tab.active{color:var(--gold2)}
+
+/* ── MAIN LAYOUT ── */
+.main-wrap{max-width:940px;margin:0 auto;padding:32px 24px}
+
+/* ── SECTION CARDS ── */
+.section-card{background:var(--white);border:1px solid var(--border);border-radius:4px;margin-bottom:20px;overflow:hidden}
+.section-title{background:var(--navy);color:var(--gold);font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:12px 20px;display:flex;align-items:center;gap:10px}
+.section-body{padding:20px}
+.section-num{background:rgba(201,168,76,0.2);color:var(--gold2);font-size:10px;font-weight:600;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ── FORM FIELDS ── */
+.row{display:grid;gap:14px;margin-bottom:14px}
+.row-2{grid-template-columns:1fr 1fr}
+.row-3{grid-template-columns:1fr 1fr 1fr}
+.row-4{grid-template-columns:1fr 1fr 1fr 1fr}
+.field{display:flex;flex-direction:column;gap:5px}
+label{font-size:11px;font-weight:500;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted)}
+input[type=text],input[type=date],input[type=time],input[type=number],input[type=email],input[type=tel],select,textarea{
+  width:100%;padding:9px 12px;border:1.5px solid var(--border);border-radius:3px;font-size:13.5px;color:var(--text);background:var(--white);
+  transition:border-color 0.15s;outline:none;font-family:'Jost',sans-serif;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)}
+select{cursor:pointer}
+textarea{resize:vertical;min-height:70px}
+
+/* ── DYNAMIC ROWS (F&B, AV, Staff) ── */
+.dyn-table{width:100%;border-collapse:collapse}
+.dyn-table th{font-size:10px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1.5px solid var(--border);text-align:left;background:var(--cream)}
+.dyn-table td{padding:5px 5px;vertical-align:middle;border-bottom:1px solid rgba(214,205,184,0.5)}
+.dyn-table td input,.dyn-table td select{border-radius:2px;padding:6px 8px;font-size:13px}
+.dyn-table td:last-child{width:40px;text-align:center}
+.remove-btn{background:none;border:none;color:#C0392B;font-size:18px;cursor:pointer;line-height:1;padding:4px 8px;opacity:0.6;transition:opacity 0.15s}
+.remove-btn:hover{opacity:1}
+.add-btn{background:none;border:1.5px dashed var(--gold);color:var(--gold);font-family:'Jost',sans-serif;font-size:12px;font-weight:500;padding:7px 18px;border-radius:3px;cursor:pointer;margin-top:10px;letter-spacing:0.5px;transition:all 0.15s}
+.add-btn:hover{background:rgba(201,168,76,0.08)}
+
+/* ── MEAL PERIOD ── */
+.meal-block{border:1px solid var(--border);border-radius:3px;margin-bottom:16px;overflow:hidden}
+.meal-header{background:var(--cream2);padding:10px 14px;display:flex;align-items:center;justify-content:space-between}
+.meal-header-left{display:flex;align-items:center;gap:10px}
+.meal-label{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:var(--navy)}
+.meal-period-select{border:1px solid var(--border);border-radius:2px;padding:4px 8px;font-size:12px;background:var(--white);font-family:'Jost',sans-serif;color:var(--text)}
+.meal-body{padding:12px}
+.remove-meal-btn{background:none;border:none;color:var(--muted);font-size:13px;cursor:pointer;padding:4px 8px;border-radius:2px;transition:all 0.15s}
+.remove-meal-btn:hover{background:#FCE8E8;color:#C0392B}
+.add-meal-btn{background:var(--navy);color:var(--gold);border:none;font-family:'Jost',sans-serif;font-size:12px;font-weight:500;padding:9px 20px;border-radius:3px;cursor:pointer;letter-spacing:0.5px;transition:background 0.15s}
+.add-meal-btn:hover{background:var(--navy3)}
+
+/* ── AV ITEMS ── */
+.av-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.av-item{display:flex;align-items:center;gap:8px;padding:8px 10px;border:1.5px solid var(--border);border-radius:3px;cursor:pointer;transition:all 0.15s;user-select:none}
+.av-item:hover{border-color:var(--gold)}
+.av-item.selected{border-color:var(--gold);background:rgba(201,168,76,0.08)}
+.av-item input[type=checkbox]{accent-color:var(--gold);width:15px;height:15px;cursor:pointer}
+.av-item-label{font-size:13px;flex:1}
+.av-item-qty{width:54px;padding:4px 6px;font-size:12px;border:1.5px solid var(--border);border-radius:2px;text-align:center}
+
+/* ── STAFF TABLE ── */
+.staff-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.staff-item{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:9px 12px;border:1.5px solid var(--border);border-radius:3px}
+.staff-label{font-size:13px;color:var(--text)}
+.staff-qty{display:flex;align-items:center;gap:6px}
+.qty-btn{background:var(--cream2);border:1px solid var(--border);color:var(--text);width:26px;height:26px;border-radius:2px;cursor:pointer;font-size:16px;line-height:1;display:flex;align-items:center;justify-content:center;transition:background 0.1s}
+.qty-btn:hover{background:var(--gold3)}
+.qty-num{font-weight:600;font-size:14px;min-width:24px;text-align:center}
+
+/* ── GENERATE BTN ── */
+.generate-wrap{display:flex;justify-content:center;padding:24px 0 8px}
+.generate-btn{background:var(--navy);color:var(--gold);border:2px solid var(--gold);font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:600;padding:12px 44px;border-radius:3px;cursor:pointer;letter-spacing:2px;transition:all 0.2s}
+.generate-btn:hover{background:var(--gold);color:var(--navy)}
+
+/* ── BEO PREVIEW ── */
+#preview-section{display:none}
+.preview-actions{display:flex;gap:12px;justify-content:flex-end;margin-bottom:20px}
+.action-btn{font-family:'Jost',sans-serif;font-size:13px;font-weight:500;padding:9px 22px;border-radius:3px;cursor:pointer;letter-spacing:0.5px;transition:all 0.15s}
+.btn-print{background:var(--navy);color:var(--gold);border:none}
+.btn-print:hover{background:var(--navy3)}
+.btn-edit{background:var(--white);color:var(--text);border:1.5px solid var(--border)}
+.btn-edit:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ── BEO DOCUMENT ── */
+.beo-doc{background:var(--white);border:1px solid var(--border);border-radius:4px;overflow:hidden;font-size:13px}
+.beo-top{background:var(--navy);padding:20px 28px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.beo-hotel{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:700;color:var(--gold);letter-spacing:3px}
+.beo-hotel-sub{font-size:10px;color:rgba(201,168,76,0.6);letter-spacing:3px;text-transform:uppercase;margin-top:2px}
+.beo-doc-title{text-align:right}
+.beo-doc-label{font-size:10px;font-weight:300;color:rgba(255,255,255,0.5);letter-spacing:2px;text-transform:uppercase}
+.beo-doc-num{font-family:'Cormorant Garamond',serif;font-size:18px;font-weight:700;color:var(--gold2)}
+.beo-doc-date{font-size:11px;color:rgba(255,255,255,0.4);margin-top:2px}
+
+.beo-gold-bar{height:4px;background:linear-gradient(90deg,var(--gold),var(--gold2),var(--gold))}
+
+.beo-info-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-bottom:1px solid var(--border)}
+.beo-info-cell{padding:12px 16px;border-right:1px solid var(--border)}
+.beo-info-cell:last-child{border-right:none}
+.beo-info-key{font-size:9px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.beo-info-val{font-size:13px;font-weight:500;color:var(--text)}
+
+.beo-section{padding:16px 20px;border-bottom:1px solid var(--border)}
+.beo-section:last-child{border-bottom:none}
+.beo-section-title{font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:2px;color:var(--navy);margin-bottom:10px;padding-bottom:6px;border-bottom:1.5px solid var(--gold3)}
+.beo-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.beo-field{margin-bottom:6px}
+.beo-key{font-size:10px;font-weight:600;letter-spacing:0.5px;text-transform:uppercase;color:var(--muted)}
+.beo-val{font-size:13px;font-weight:400;color:var(--text)}
+
+.beo-table{width:100%;border-collapse:collapse;margin-top:4px}
+.beo-table th{font-size:10px;font-weight:600;letter-spacing:0.6px;text-transform:uppercase;color:var(--muted);padding:5px 10px;background:var(--cream);border:1px solid var(--border);text-align:left}
+.beo-table td{padding:6px 10px;border:1px solid var(--border);font-size:13px}
+.beo-table tr:nth-child(even) td{background:var(--cream)}
+.beo-meal-head{background:var(--navy2);color:var(--gold);font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:6px 10px}
+.beo-meal-head td{border-color:var(--navy2);background:var(--navy2);color:var(--gold)}
+
+.beo-av-list{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.beo-av-item{display:flex;align-items:center;gap:8px;font-size:12px;padding:3px 0}
+.beo-av-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0}
+
+.beo-staff-table{display:grid;grid-template-columns:1fr 1fr;gap:4px}
+.beo-staff-row{display:flex;justify-content:space-between;padding:4px 8px;border:1px solid var(--border);border-radius:2px;font-size:12px}
+.beo-staff-num{font-weight:600;color:var(--navy)}
+
+.beo-notes-box{background:var(--cream);border:1px solid var(--border);border-radius:2px;padding:12px;font-size:13px;line-height:1.6;white-space:pre-wrap;min-height:40px}
+
+.beo-sign-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;padding:16px 20px;background:var(--cream2);border-top:2px solid var(--gold3)}
+.beo-sign{display:flex;flex-direction:column;gap:4px}
+.beo-sign-line{border-bottom:1.5px solid var(--text);height:28px;margin-bottom:4px}
+.beo-sign-label{font-size:9px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted)}
+
+.beo-footer{background:var(--navy);padding:10px 20px;text-align:center;font-size:10px;color:rgba(255,255,255,0.35);letter-spacing:1px}
+
+/* ── PRINT ── */
+@media print{
+  .site-header,.tabs-bar,.preview-actions{display:none!important}
+  body{background:white;font-size:12px}
+  .main-wrap{padding:0;max-width:100%}
+  #builder-section{display:none!important}
+  #preview-section{display:block!important}
+  .beo-doc{border:none;border-radius:0}
+  .beo-top{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .beo-gold-bar{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .beo-meal-head td{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .beo-sign-row{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .beo-footer{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+}
+
+.hint{font-size:11px;color:var(--muted);font-style:italic;margin-bottom:12px}
+.empty-state{color:var(--muted);font-size:13px;font-style:italic;text-align:center;padding:20px}
+
+/* ── DEPT RESPONSIBILITIES ── */
+.dept-block{border:1px solid var(--border);border-radius:3px;margin-bottom:14px;overflow:hidden}
+.dept-block-header{background:var(--navy2);padding:10px 16px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none}
+.dept-block-title{font-family:'Cormorant Garamond',serif;font-size:15px;font-weight:600;color:var(--gold);letter-spacing:1px}
+.dept-status-badge{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:2px;border:1px solid}
+.dept-status-badge.pending{color:#C9A84C;border-color:#C9A84C;background:rgba(201,168,76,0.1)}
+.dept-status-badge.confirmed{color:#1B6B45;border-color:#1B6B45;background:#EAF5EE}
+.dept-status-badge.attention{color:#C0392B;border-color:#C0392B;background:#FCE8E8}
+.dept-block-body{padding:14px 16px;background:var(--white)}
+.dept-status-row{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.dept-status-row label{margin-bottom:0;white-space:nowrap}
+.dept-status-row select{max-width:180px;padding:6px 10px;font-size:12px}
+.dept-task-table{width:100%;border-collapse:collapse;margin-top:6px}
+.dept-task-table th{font-size:10px;font-weight:600;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);padding:6px 8px;border-bottom:1.5px solid var(--border);text-align:left;background:var(--cream)}
+.dept-task-table td{padding:5px 6px;vertical-align:middle;border-bottom:1px solid rgba(214,205,184,0.5)}
+.dept-task-table td input,.dept-task-table td select{border-radius:2px;padding:5px 8px;font-size:12.5px}
+.dept-assignee{font-size:11px;color:var(--muted)}
+
+/* ── BEO DEPT TABLE ── */
+.beo-dept-table{width:100%;border-collapse:collapse;margin-top:6px;font-size:12px}
+.beo-dept-table th{font-size:9px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted);padding:5px 10px;background:var(--cream);border:1px solid var(--border);text-align:left}
+.beo-dept-table td{padding:6px 10px;border:1px solid var(--border)}
+.beo-dept-table tr:nth-child(even) td{background:var(--cream)}
+.beo-dept-dept{font-weight:600;color:var(--navy);font-size:11px}
+.beo-status-chip{display:inline-block;font-size:9px;font-weight:700;letter-spacing:0.8px;text-transform:uppercase;padding:2px 7px;border-radius:2px}
+.beo-status-chip.pending{background:rgba(201,168,76,0.15);color:#8a6d1e}
+.beo-status-chip.confirmed{background:#EAF5EE;color:#1B6B45}
+.beo-status-chip.attention{background:#FCE8E8;color:#C0392B}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header class="site-header">
+  <div class="brand">
+    <div class="brand-name">GALLANI SUITES</div>
+    <div class="brand-sub">Events & Banqueting Division</div>
+  </div>
+  <div class="beo-badge">BEO Builder</div>
+</header>
+
+<!-- TABS -->
+<nav class="tabs-bar" id="tabs-bar">
+  <button class="tab-btn active" onclick="switchTab('event')">Event Details</button>
+  <button class="tab-btn" onclick="switchTab('room')">Room &amp; Setup</button>
+  <button class="tab-btn" onclick="switchTab('fnb')">Food &amp; Beverage</button>
+  <button class="tab-btn" onclick="switchTab('av')">AV &amp; Technical</button>
+  <button class="tab-btn" onclick="switchTab('staff')">Staffing</button>
+  <button class="tab-btn" onclick="switchTab('notes')">Notes</button>
+  <button class="tab-btn" onclick="switchTab('dept')">Dept. Responsibilities</button>
+  <button class="tab-btn preview-tab" onclick="generateBEO()">▶ Generate BEO</button>
+</nav>
+
+<div class="main-wrap">
+
+<!-- ══════════════════════════════════════════════
+     BUILDER SECTION
+══════════════════════════════════════════════ -->
+<div id="builder-section">
+
+<!-- TAB: EVENT DETAILS -->
+<div id="tab-event" class="tab-content">
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">1</span>Event Identification</div>
+    <div class="section-body">
+      <div class="row row-2">
+        <div class="field">
+          <label>BEO Reference Number</label>
+          <input type="text" id="beoNum" placeholder="e.g. GS-BEO-2025-001" oninput="autoNum()">
+        </div>
+        <div class="field">
+          <label>Date Raised</label>
+          <input type="date" id="dateRaised">
+        </div>
+      </div>
+      <div class="row row-2">
+        <div class="field">
+          <label>Event / Function Name</label>
+          <input type="text" id="eventName" placeholder="e.g. Okafor Wedding Reception">
+        </div>
+        <div class="field">
+          <label>Event Type</label>
+          <select id="eventType">
+            <option value="">— Select —</option>
+            <option>Wedding Reception</option>
+            <option>Corporate Conference</option>
+            <option>Gala Dinner</option>
+            <option>Birthday Celebration</option>
+            <option>Product Launch</option>
+            <option>Cocktail Reception</option>
+            <option>Award Ceremony</option>
+            <option>Training Workshop</option>
+            <option>Board Meeting</option>
+            <option>Private Dinner</option>
+            <option>Other</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">2</span>Client Information</div>
+    <div class="section-body">
+      <div class="row row-2">
+        <div class="field">
+          <label>Client / Host Name</label>
+          <input type="text" id="clientName" placeholder="Full name or company name">
+        </div>
+        <div class="field">
+          <label>Organisation / Company</label>
+          <input type="text" id="clientOrg" placeholder="Organisation (if applicable)">
+        </div>
+      </div>
+      <div class="row row-3">
+        <div class="field">
+          <label>Phone Number</label>
+          <input type="tel" id="clientPhone" placeholder="+234 ...">
+        </div>
+        <div class="field">
+          <label>Email Address</label>
+          <input type="email" id="clientEmail" placeholder="client@example.com">
+        </div>
+        <div class="field">
+          <label>WhatsApp / Alt. Contact</label>
+          <input type="tel" id="clientAlt" placeholder="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">3</span>Event Schedule</div>
+    <div class="section-body">
+      <div class="row row-2">
+        <div class="field">
+          <label>Event Date</label>
+          <input type="date" id="eventDate">
+        </div>
+        <div class="field">
+          <label>Day of Week</label>
+          <input type="text" id="dayOfWeek" placeholder="Auto-filled" readonly style="background:var(--cream);color:var(--muted)">
+        </div>
+      </div>
+      <div class="row row-4">
+        <div class="field">
+          <label>Setup Start</label>
+          <input type="time" id="setupTime">
+        </div>
+        <div class="field">
+          <label>Event Start</label>
+          <input type="time" id="startTime">
+        </div>
+        <div class="field">
+          <label>Event End</label>
+          <input type="time" id="endTime">
+        </div>
+        <div class="field">
+          <label>Breakdown By</label>
+          <input type="time" id="breakdownTime">
+        </div>
+      </div>
+      <div class="row row-2">
+        <div class="field">
+          <label>Expected Number of Guests</label>
+          <input type="number" id="guestCount" placeholder="0" min="1">
+        </div>
+        <div class="field">
+          <label>Event Coordinator (Hotel)</label>
+          <input type="text" id="coordinator" placeholder="Staff name">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: ROOM & SETUP -->
+<div id="tab-room" class="tab-content" style="display:none">
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">1</span>Venue Assignment</div>
+    <div class="section-body">
+      <div class="row row-2">
+        <div class="field">
+          <label>Venue / Room Name</label>
+          <select id="venueName">
+            <option value="">— Select Venue —</option>
+            <option>Grand Ballroom</option>
+            <option>Gallani Hall A</option>
+            <option>Gallani Hall B</option>
+            <option>Hall A + B (Combined)</option>
+            <option>Executive Boardroom</option>
+            <option>Garden Terrace</option>
+            <option>Rooftop Event Space</option>
+            <option>Conference Room 1</option>
+            <option>Conference Room 2</option>
+            <option>VIP Lounge</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Custom Venue Name (if "Other")</label>
+          <input type="text" id="venueCustom" placeholder="">
+        </div>
+      </div>
+      <div class="row row-3">
+        <div class="field">
+          <label>Room Capacity (Max)</label>
+          <input type="number" id="roomCapacity" placeholder="0">
+        </div>
+        <div class="field">
+          <label>Minimum Space Required</label>
+          <input type="text" id="spaceReq" placeholder="e.g. Full room">
+        </div>
+        <div class="field">
+          <label>Room Handover Time</label>
+          <input type="time" id="handoverTime">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">2</span>Room Layout Configuration</div>
+    <div class="section-body">
+      <div class="row row-2">
+        <div class="field">
+          <label>Primary Layout Style</label>
+          <select id="layoutStyle">
+            <option value="">— Select Layout —</option>
+            <option>Banquet / Round Tables</option>
+            <option>Theatre / Rows</option>
+            <option>Classroom</option>
+            <option>Boardroom</option>
+            <option>Hollow Square</option>
+            <option>U-Shape</option>
+            <option>Cocktail / Standing</option>
+            <option>Cabaret</option>
+            <option>Mixed / Custom</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Table Shape</label>
+          <select id="tableShape">
+            <option value="">— Select —</option>
+            <option>Round (60")</option>
+            <option>Round (72")</option>
+            <option>Rectangular</option>
+            <option>Long Banquet</option>
+            <option>Mixed</option>
+            <option>N/A (Standing)</option>
+          </select>
+        </div>
+      </div>
+      <div class="row row-3">
+        <div class="field">
+          <label>Number of Tables</label>
+          <input type="number" id="tableCount" placeholder="0" min="0">
+        </div>
+        <div class="field">
+          <label>Chairs per Table</label>
+          <input type="number" id="chairsPerTable" placeholder="0" min="0">
+        </div>
+        <div class="field">
+          <label>Head / Top Table</label>
+          <select id="headTable">
+            <option value="">— Select —</option>
+            <option>Yes — 1 head table</option>
+            <option>Yes — 2 head tables</option>
+            <option>No</option>
+          </select>
+        </div>
+      </div>
+      <div class="row row-2">
+        <div class="field">
+          <label>Stage / Podium Required?</label>
+          <select id="stageReq">
+            <option value="">— Select —</option>
+            <option>Yes — Stage required</option>
+            <option>Yes — Podium only</option>
+            <option>Stage + Podium</option>
+            <option>No</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Dance Floor Required?</label>
+          <select id="danceFloor">
+            <option value="">— Select —</option>
+            <option>Yes</option>
+            <option>No</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" style="margin-top:4px">
+        <label>Additional Room Setup Notes</label>
+        <textarea id="roomNotes" placeholder="Any specific layout requirements, special furniture, décor instructions..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">3</span>Environmental Settings</div>
+    <div class="section-body">
+      <div class="row row-3">
+        <div class="field">
+          <label>Air Conditioning / Temp</label>
+          <select id="acSetting">
+            <option value="">— Select —</option>
+            <option>Cool (20–22°C)</option>
+            <option>Moderate (22–24°C)</option>
+            <option>Warm (24–26°C)</option>
+            <option>Client to advise</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Lighting Mood</label>
+          <select id="lightMood">
+            <option value="">— Select —</option>
+            <option>Bright (Full lighting)</option>
+            <option>Warm / Dimmed</option>
+            <option>Ambient / Candlelight</option>
+            <option>Event-specific (per program)</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Background Music</label>
+          <select id="bgMusic">
+            <option value="">— Select —</option>
+            <option>Hotel playlist</option>
+            <option>Client's playlist</option>
+            <option>Live band</option>
+            <option>DJ</option>
+            <option>None</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: F&B -->
+<div id="tab-fnb" class="tab-content" style="display:none">
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">1</span>Meal Periods &amp; Menu Items</div>
+    <div class="section-body">
+      <p class="hint">Add a meal period for each service (e.g. Cocktail Reception, Buffet Dinner, Cake &amp; Desserts). Within each, list the dishes or items to be served.</p>
+      <div id="meal-blocks"></div>
+      <button class="add-meal-btn" onclick="addMealBlock()">+ Add Meal Period</button>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">2</span>Beverage Service</div>
+    <div class="section-body">
+      <div class="row row-3" style="margin-bottom:10px">
+        <div class="field">
+          <label>Bar Type</label>
+          <select id="barType">
+            <option value="">— Select —</option>
+            <option>Open Bar (All-inclusive)</option>
+            <option>Cash Bar</option>
+            <option>Limited Open Bar</option>
+            <option>Soft Drinks Only</option>
+            <option>No Bar / Client Supplies</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Bar Location</label>
+          <input type="text" id="barLocation" placeholder="e.g. Entrance foyer, Corner of room">
+        </div>
+        <div class="field">
+          <label>Bar Service Hours</label>
+          <input type="text" id="barHours" placeholder="e.g. 17:00 – 22:00">
+        </div>
+      </div>
+      <p class="hint" style="margin-bottom:8px">List specific beverages, quantities and service notes below:</p>
+      <table class="dyn-table" id="beverage-table">
+        <thead><tr><th>Beverage Item</th><th>Quantity</th><th>Unit</th><th>Service Notes</th><th></th></tr></thead>
+        <tbody id="bev-body"></tbody>
+      </table>
+      <button class="add-btn" onclick="addBevRow()">+ Add Beverage Item</button>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">3</span>Dietary &amp; Allergy Requirements</div>
+    <div class="section-body">
+      <div class="row row-2">
+        <div class="field">
+          <label>Known Dietary Restrictions</label>
+          <input type="text" id="dietaryRestrictions" placeholder="e.g. 5 vegetarian, 2 halal">
+        </div>
+        <div class="field">
+          <label>Allergy Alerts</label>
+          <input type="text" id="allergyAlerts" placeholder="e.g. Nut allergy — Table 7">
+        </div>
+      </div>
+      <div class="field">
+        <label>Additional F&amp;B Notes</label>
+        <textarea id="fnbNotes" placeholder="Special plating, service sequence, VIP preferences..."></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: AV & TECHNICAL -->
+<div id="tab-av" class="tab-content" style="display:none">
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">1</span>Audio-Visual Equipment</div>
+    <div class="section-body">
+      <p class="hint">Select items required and enter quantities. Add custom items at the bottom.</p>
+      <div class="av-grid" id="av-grid"></div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">2</span>Custom / Additional AV Items</div>
+    <div class="section-body">
+      <table class="dyn-table">
+        <thead><tr><th>Item Description</th><th>Quantity</th><th>Notes / Spec</th><th></th></tr></thead>
+        <tbody id="av-custom-body"></tbody>
+      </table>
+      <button class="add-btn" onclick="addAvCustomRow()">+ Add Custom AV Item</button>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">3</span>Technical Notes</div>
+    <div class="section-body">
+      <div class="field">
+        <label>AV / Technical Requirements Notes</label>
+        <textarea id="avNotes" placeholder="Cabling, power source, technician access times, HDMI format, laptop model..."></textarea>
+      </div>
+      <div class="row row-2" style="margin-top:10px">
+        <div class="field">
+          <label>External AV Company (if applicable)</label>
+          <input type="text" id="avCompany" placeholder="Company name">
+        </div>
+        <div class="field">
+          <label>AV Technician Contact</label>
+          <input type="tel" id="avContact" placeholder="Phone number">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: STAFFING -->
+<div id="tab-staff" class="tab-content" style="display:none">
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">1</span>Event Staff Requirements</div>
+    <div class="section-body">
+      <p class="hint">Set the number of each staff type required for this event. Adjust quantities using + / – buttons.</p>
+      <div class="staff-grid" id="staff-grid"></div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">2</span>Staffing Notes</div>
+    <div class="section-body">
+      <div class="field">
+        <label>Lead Banquet Captain / Supervisor</label>
+        <input type="text" id="banquetCaptain" placeholder="Name of assigned captain">
+      </div>
+      <div class="row row-2" style="margin-top:10px">
+        <div class="field">
+          <label>Staff Briefing Time</label>
+          <input type="time" id="briefingTime">
+        </div>
+        <div class="field">
+          <label>Uniform Requirement</label>
+          <select id="uniformReq">
+            <option>Full formal (white shirt, black trousers, bow tie)</option>
+            <option>Smart casual (branded polo, black trousers)</option>
+            <option>Theme specific — see notes</option>
+            <option>Standard hotel uniform</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" style="margin-top:10px">
+        <label>Additional Staffing Notes</label>
+        <textarea id="staffNotes" placeholder="Specific assignments, external hires, security arrangements..."></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TAB: NOTES -->
+<div id="tab-notes" class="tab-content" style="display:none">
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">1</span>Special Requests &amp; Instructions</div>
+    <div class="section-body">
+      <div class="field">
+        <label>Client Special Requests</label>
+        <textarea id="clientRequests" style="min-height:100px" placeholder="Any specific requests from the client — e.g. surprises, cultural sensitivities, VIP protocols..."></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">2</span>Décor &amp; Theming Notes</div>
+    <div class="section-body">
+      <div class="row row-2">
+        <div class="field">
+          <label>Colour Scheme / Theme</label>
+          <input type="text" id="colourScheme" placeholder="e.g. Gold & Ivory, Black Tie, Afro-Fusion">
+        </div>
+        <div class="field">
+          <label>Décor Contractor</label>
+          <input type="text" id="decorContractor" placeholder="Company or individual name">
+        </div>
+      </div>
+      <div class="row row-2">
+        <div class="field">
+          <label>Decorator Access Time</label>
+          <input type="time" id="decorAccess">
+        </div>
+        <div class="field">
+          <label>Decorator Contact</label>
+          <input type="tel" id="decorContact" placeholder="Phone number">
+        </div>
+      </div>
+      <div class="field" style="margin-top:6px">
+        <label>Décor Notes</label>
+        <textarea id="decorNotes" placeholder="Floral arrangements, backdrop, centrepieces, signage, lighting effects..."></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">3</span>Financial Reference</div>
+    <div class="section-body">
+      <div class="row row-3">
+        <div class="field">
+          <label>Deposit Paid (₦)</label>
+          <input type="text" id="deposit" placeholder="0.00">
+        </div>
+        <div class="field">
+          <label>Balance Due (₦)</label>
+          <input type="text" id="balance" placeholder="0.00">
+        </div>
+        <div class="field">
+          <label>Payment Deadline</label>
+          <input type="date" id="paymentDue">
+        </div>
+      </div>
+      <div class="field" style="margin-top:6px">
+        <label>Financial / Billing Notes</label>
+        <textarea id="billingNotes" placeholder="Payment terms, invoice reference, VAT status..."></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">4</span>General Remarks</div>
+    <div class="section-body">
+      <div class="field">
+        <label>Internal Notes (not shown to client)</label>
+        <textarea id="internalNotes" style="min-height:100px" placeholder="Any operational notes for the team — logistics, concerns, follow-ups required..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="generate-wrap">
+    <button class="generate-btn" onclick="generateBEO()">Generate BEO Document ▶</button>
+  </div>
+</div>
+
+<!-- TAB: DEPARTMENTAL RESPONSIBILITIES -->
+<div id="tab-dept" class="tab-content" style="display:none">
+
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">1</span>Department Task Assignment</div>
+    <div class="section-body">
+      <p class="hint">Assign responsibilities and action items to each department for this event. Use the status dropdown to indicate readiness.</p>
+      <div id="dept-blocks"></div>
+    </div>
+  </div>
+
+  <div class="section-card">
+    <div class="section-title"><span class="section-num">2</span>HOD Sign-off &amp; Confirmation</div>
+    <div class="section-body">
+      <div class="row row-2">
+        <div class="field">
+          <label>HOD Pre-Event Briefing Date</label>
+          <input type="date" id="hodBriefingDate">
+        </div>
+        <div class="field">
+          <label>HOD Briefing Time</label>
+          <input type="time" id="hodBriefingTime">
+        </div>
+      </div>
+      <div class="field" style="margin-top:6px">
+        <label>Cross-Departmental Coordination Notes</label>
+        <textarea id="deptCoordNotes" placeholder="Note any inter-department dependencies, escalation contacts, or key handover points..."></textarea>
+      </div>
+    </div>
+  </div>
+
+  <div class="generate-wrap">
+    <button class="generate-btn" onclick="generateBEO()">Generate BEO Document ▶</button>
+  </div>
+</div>
+
+</div><!-- end builder-section -->
+
+
+<!-- ══════════════════════════════════════════════
+     PREVIEW SECTION
+══════════════════════════════════════════════ -->
+<div id="preview-section">
+  <div class="preview-actions">
+    <button class="action-btn btn-edit" onclick="backToEdit()">← Edit BEO</button>
+    <button class="action-btn btn-print" onclick="window.print()">🖨 Print / Save PDF</button>
+  </div>
+
+  <div class="beo-doc" id="beo-doc">
+    <!-- Filled by JS -->
+  </div>
+</div>
+
+</div><!-- end main-wrap -->
+
+<script>
+// ── STATE ──
+const meals = [];
+const beverages = [];
+const avCustom = [];
+
+// ── DEPARTMENTAL RESPONSIBILITIES ──
+const departments = [
+  { id:'fnb',    name:'Food & Beverage',         icon:'🍽', hod:'F&B Manager',        status:'pending', tasks:[], notes:'' },
+  { id:'hk',     name:'Housekeeping',             icon:'🛏', hod:'Executive Housekeeper', status:'pending', tasks:[], notes:'' },
+  { id:'kitchen',name:'Kitchen / Culinary',       icon:'👨‍🍳', hod:'Executive Chef',      status:'pending', tasks:[], notes:'' },
+  { id:'av',     name:'AV & Technical',           icon:'🎛', hod:'AV Technician Lead',  status:'pending', tasks:[], notes:'' },
+  { id:'sec',    name:'Security',                 icon:'🔐', hod:'Chief Security Officer', status:'pending', tasks:[], notes:'' },
+  { id:'front',  name:'Front Office / Reception', icon:'🏨', hod:'Front Office Manager', status:'pending', tasks:[], notes:'' },
+  { id:'maint',  name:'Maintenance / Engineering',icon:'🔧', hod:'Chief Engineer',       status:'pending', tasks:[], notes:'' },
+  { id:'decor',  name:'Décor & Styling',          icon:'🌸', hod:'Events Coordinator',   status:'pending', tasks:[], notes:'' },
+  { id:'mgmt',   name:'Management / GM Office',   icon:'📋', hod:'General Manager',      status:'pending', tasks:[], notes:'' },
+];
+
+const deptDefaultTasks = {
+  fnb:    ['Set up buffet stations','Assign waitstaff to tables','Prepare bar setup','Coordinate meal service timing','Post-event breakdown'],
+  hk:     ['Deep-clean event venue','Prepare extra towels/linen','Maintain restroom cleanliness during event','Post-event room reset'],
+  kitchen:['Confirm menu with F&B Manager','Prep all dishes per BEO quantities','Ensure dietary/allergy items are labelled','Liaise on service timing'],
+  av:     ['Test all AV equipment 2hrs before event','Brief client on AV setup','Assign technician on standby during event','Collect all equipment post-event'],
+  sec:    ['Man all entry points','Conduct guest screening','Monitor crowd flow','Coordinate with event coordinator on VIP protocol'],
+  front:  ['Brief front desk on event guests','Prepare signage and directional wayfinding','Manage overflow parking','Greet VIP arrivals'],
+  maint:  ['Check all lighting and electrical points','Ensure AC/HVAC is serviced','Generator test and standby','Attend to maintenance issues during event'],
+  decor:  ['Confirm theme and colour scheme with client','Supervise decorator access','Inspect final setup before handover','Arrange flowers/centrepieces'],
+  mgmt:   ['Review and sign off BEO','Conduct HOD briefing','Greet key VIPs / client','Post-event debrief with team'],
+};
+
+function initDeptTasks(){
+  departments.forEach(dept=>{
+    if(dept.tasks.length === 0){
+      dept.tasks = (deptDefaultTasks[dept.id]||[]).map(t=>({task:t, assignee:'', done:false}));
+    }
+  });
+}
+
+function renderDeptBlocks(){
+  const container = document.getElementById('dept-blocks');
+  if(!container) return;
+  container.innerHTML = '';
+  departments.forEach(dept=>{
+    const block = document.createElement('div');
+    block.className = 'dept-block';
+    const statusClass = dept.status==='confirmed'?'confirmed':dept.status==='attention'?'attention':'pending';
+    const statusLabel = dept.status==='confirmed'?'Confirmed':dept.status==='attention'?'Needs Attention':'Pending';
+    block.innerHTML = `
+      <div class="dept-block-header" onclick="toggleDeptBlock('${dept.id}')">
+        <div class="dept-block-title">${dept.icon} &nbsp;${dept.name}</div>
+        <span class="dept-status-badge ${statusClass}">${statusLabel}</span>
+      </div>
+      <div class="dept-block-body" id="dept-body-${dept.id}">
+        <div class="dept-status-row">
+          <label>HOD / In-Charge:</label>
+          <input type="text" value="${dept.hod}" placeholder="Name or title" style="max-width:200px;padding:5px 10px;font-size:13px" oninput="dept_updateHod('${dept.id}',this.value)">
+          <label style="margin-left:14px">Status:</label>
+          <select style="max-width:170px;padding:5px 8px;font-size:12px" onchange="dept_updateStatus('${dept.id}',this.value)">
+            <option value="pending"${dept.status==='pending'?' selected':''}>⏳ Pending</option>
+            <option value="confirmed"${dept.status==='confirmed'?' selected':''}>✅ Confirmed</option>
+            <option value="attention"${dept.status==='attention'?' selected':''}>⚠️ Needs Attention</option>
+          </select>
+        </div>
+        <table class="dept-task-table">
+          <thead><tr><th style="width:30px">✓</th><th>Task / Responsibility</th><th style="width:160px">Assigned To</th><th style="width:36px"></th></tr></thead>
+          <tbody id="dept-tasks-${dept.id}"></tbody>
+        </table>
+        <button class="add-btn" style="font-size:11px;padding:5px 12px;margin-top:8px" onclick="dept_addTask('${dept.id}')">+ Add Task</button>
+        <div style="margin-top:10px">
+          <label style="font-size:11px;font-weight:500;letter-spacing:0.8px;text-transform:uppercase;color:var(--muted)">Department Notes</label>
+          <textarea style="margin-top:4px;min-height:55px;width:100%;padding:8px 10px;border:1.5px solid var(--border);border-radius:3px;font-size:13px;font-family:'Jost',sans-serif;resize:vertical" 
+            placeholder="Any special instructions, concerns or notes for this department..." 
+            oninput="dept_updateNotes('${dept.id}',this.value)">${dept.notes}</textarea>
+        </div>
+      </div>`;
+    container.appendChild(block);
+    renderDeptTasks(dept.id);
+  });
+}
+
+function renderDeptTasks(deptId){
+  const dept = departments.find(d=>d.id===deptId);
+  const tbody = document.getElementById('dept-tasks-'+deptId);
+  if(!dept||!tbody) return;
+  tbody.innerHTML = '';
+  if(dept.tasks.length===0){
+    tbody.innerHTML = '<tr><td colspan="4" style="color:var(--muted);font-style:italic;padding:8px;font-size:12px">No tasks yet — click Add Task</td></tr>';
+    return;
+  }
+  dept.tasks.forEach((t,i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="checkbox" ${t.done?'checked':''} style="accent-color:var(--gold);width:15px;height:15px" onchange="dept_toggleTask('${deptId}',${i},this.checked)"></td>
+      <td><input type="text" value="${t.task}" placeholder="Describe task..." style="width:100%" oninput="dept_updateTask('${deptId}',${i},'task',this.value)"></td>
+      <td><input type="text" value="${t.assignee}" placeholder="Staff name / role" style="width:100%" oninput="dept_updateTask('${deptId}',${i},'assignee',this.value)"></td>
+      <td><button class="remove-btn" onclick="dept_removeTask('${deptId}',${i})">×</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function toggleDeptBlock(deptId){
+  const body = document.getElementById('dept-body-'+deptId);
+  if(body) body.style.display = body.style.display==='none' ? '' : 'none';
+}
+function dept_updateHod(id,val){ const d=departments.find(d=>d.id===id); if(d) d.hod=val; }
+function dept_updateStatus(id,val){
+  const d=departments.find(d=>d.id===id);
+  if(!d) return;
+  d.status=val;
+  renderDeptBlocks();
+}
+function dept_updateNotes(id,val){ const d=departments.find(d=>d.id===id); if(d) d.notes=val; }
+function dept_addTask(id){ const d=departments.find(d=>d.id===id); if(d){ d.tasks.push({task:'',assignee:'',done:false}); renderDeptTasks(id); } }
+function dept_removeTask(id,idx){ const d=departments.find(d=>d.id===id); if(d){ d.tasks.splice(idx,1); renderDeptTasks(id); } }
+function dept_updateTask(id,idx,field,val){ const d=departments.find(d=>d.id===id); if(d&&d.tasks[idx]) d.tasks[idx][field]=val; }
+function dept_toggleTask(id,idx,val){ const d=departments.find(d=>d.id===id); if(d&&d.tasks[idx]) d.tasks[idx].done=val; }
+
+const avItems = [
+  {label:'PA System / Sound System',qty:0,selected:false},
+  {label:'Wireless Handheld Microphone',qty:0,selected:false},
+  {label:'Lapel / Clip-on Microphone',qty:0,selected:false},
+  {label:'Podium Microphone',qty:0,selected:false},
+  {label:'Projector',qty:0,selected:false},
+  {label:'LED Screen / Display',qty:0,selected:false},
+  {label:'HDMI Cable & Adapters',qty:0,selected:false},
+  {label:'Laptop / Computer',qty:0,selected:false},
+  {label:'Presentation Clicker',qty:0,selected:false},
+  {label:'Backdrop / Step-and-Repeat',qty:0,selected:false},
+  {label:'Lighting Rig / Stage Lights',qty:0,selected:false},
+  {label:'Follow Spotlight',qty:0,selected:false},
+  {label:'Extension Cables / Power Strips',qty:0,selected:false},
+  {label:'Wi-Fi / Internet Access Point',qty:0,selected:false},
+  {label:'Video Conferencing System',qty:0,selected:false},
+  {label:'Generator / Backup Power',qty:0,selected:false},
+];
+
+const staffRoles = [
+  'Banquet Waiters','Bar Staff / Bartenders','Buffet Attendants',
+  'Welcome / Reception Staff','Security Personnel','Kitchen Support',
+  'AV Technicians','Set-up Crew','Ushers / Guides','Car Park Attendants',
+  'Hostesses','Cleaners (During Event)'
+];
+const staffQty = {};
+staffRoles.forEach(r => staffQty[r] = 0);
+
+// ── TAB SWITCH ──
+function switchTab(tab) {
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none');
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  const el = document.getElementById('tab-' + tab);
+  if(el) el.style.display = 'block';
+  event.target.classList.add('active');
+  document.getElementById('preview-section').style.display = 'none';
+  document.getElementById('builder-section').style.display = 'block';
+}
+
+// ── DATE → DAY ──
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('eventDate').addEventListener('change', function(){
+    const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    const d = new Date(this.value + 'T12:00:00');
+    document.getElementById('dayOfWeek').value = isNaN(d) ? '' : days[d.getDay()];
+  });
+  document.getElementById('dateRaised').value = new Date().toISOString().split('T')[0];
+  renderAvGrid();
+  renderStaffGrid();
+  addMealBlock();
+  initDeptTasks();
+  renderDeptBlocks();
+});
+
+// ── AUTO BEO NUMBER ──
+function autoNum() {}
+
+// ── MEAL BLOCKS ──
+let mealCount = 0;
+function addMealBlock(){
+  const id = mealCount++;
+  meals.push({id, period:'Buffet Dinner', items:[]});
+  renderMealBlocks();
+}
+function removeMeal(id){
+  const idx = meals.findIndex(m => m.id === id);
+  if(idx !== -1) meals.splice(idx,1);
+  renderMealBlocks();
+}
+function renderMealBlocks(){
+  const container = document.getElementById('meal-blocks');
+  container.innerHTML = '';
+  if(meals.length === 0){
+    container.innerHTML = '<div class="empty-state">No meal periods added yet.</div>';
+    return;
+  }
+  meals.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'meal-block';
+    div.innerHTML = `
+      <div class="meal-header">
+        <div class="meal-header-left">
+          <span class="meal-label">Meal Period</span>
+          <select class="meal-period-select" onchange="updateMealPeriod(${m.id}, this.value)">
+            ${['Welcome Drinks','Cocktail Reception','Breakfast','Lunch','Buffet Dinner','Sit-down Dinner','High Tea','Cake & Desserts','Canapes / Finger Food','Midnight Snack','Other']
+              .map(p=>`<option${m.period===p?' selected':''}>${p}</option>`).join('')}
+          </select>
+        </div>
+        <button class="remove-meal-btn" onclick="removeMeal(${m.id})">Remove</button>
+      </div>
+      <div class="meal-body">
+        <table class="dyn-table">
+          <thead><tr><th>Dish / Item</th><th>Qty</th><th>Unit</th><th>Service Notes</th><th></th></tr></thead>
+          <tbody id="meal-body-${m.id}"></tbody>
+        </table>
+        <button class="add-btn" style="font-size:11px;padding:5px 12px" onclick="addMealItem(${m.id})">+ Add Item</button>
+      </div>`;
+    container.appendChild(div);
+    renderMealItems(m.id);
+  });
+}
+function updateMealPeriod(id, val){
+  const m = meals.find(m=>m.id===id); if(m) m.period=val;
+}
+function addMealItem(mealId){
+  const m = meals.find(m=>m.id===mealId); if(!m) return;
+  m.items.push({dish:'',qty:'',unit:'Portions',notes:''});
+  renderMealItems(mealId);
+}
+function removeMealItem(mealId, idx){
+  const m = meals.find(m=>m.id===mealId); if(!m) return;
+  m.items.splice(idx,1);
+  renderMealItems(mealId);
+}
+function renderMealItems(mealId){
+  const m = meals.find(m=>m.id===mealId); if(!m) return;
+  const tbody = document.getElementById('meal-body-'+mealId); if(!tbody) return;
+  tbody.innerHTML = '';
+  if(m.items.length === 0){
+    tbody.innerHTML = '<tr><td colspan="5" style="color:var(--muted);font-style:italic;padding:8px 10px;font-size:12px">No items yet — click Add Item</td></tr>';
+    return;
+  }
+  m.items.forEach((item,i)=>{
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><input type="text" value="${item.dish}" placeholder="e.g. Jollof Rice" oninput="updateMealItem(${mealId},${i},'dish',this.value)" style="width:100%"></td>
+      <td><input type="number" value="${item.qty}" placeholder="0" oninput="updateMealItem(${mealId},${i},'qty',this.value)" style="width:60px"></td>
+      <td><select oninput="updateMealItem(${mealId},${i},'unit',this.value)">
+        ${['Portions','Pcs','Trays','Bowls','Litres','Bottles','Kg','Whole','Set'].map(u=>`<option${item.unit===u?' selected':''}>${u}</option>`).join('')}
+      </select></td>
+      <td><input type="text" value="${item.notes}" placeholder="Hot, chilled, plated..." oninput="updateMealItem(${mealId},${i},'notes',this.value)" style="width:100%"></td>
+      <td><button class="remove-btn" onclick="removeMealItem(${mealId},${i})">×</button></td>`;
+    tbody.appendChild(tr);
+  });
+}
+function updateMealItem(mealId,idx,field,val){
+  const m = meals.find(m=>m.id===mealId); if(m&&m.items[idx]) m.items[idx][field]=val;
+}
+
+// ── BEVERAGES ──
+function addBevRow(){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="text" placeholder="e.g. Chapman, Red Wine" style="width:100%"></td>
+    <td><input type="number" placeholder="0" style="width:60px"></td>
+    <td><select>${['Bottles','Litres','Crates','Glasses','Jugs','Cans'].map(u=>`<option>${u}</option>`).join('')}</select></td>
+    <td><input type="text" placeholder="Chilled, at bar..." style="width:100%"></td>
+    <td><button class="remove-btn" onclick="this.closest('tr').remove()">×</button></td>`;
+  document.getElementById('bev-body').appendChild(tr);
+}
+
+// ── AV GRID ──
+function renderAvGrid(){
+  const grid = document.getElementById('av-grid');
+  grid.innerHTML = '';
+  avItems.forEach((item,i)=>{
+    const div = document.createElement('div');
+    div.className = 'av-item' + (item.selected?' selected':'');
+    div.id = 'av-item-'+i;
+    div.onclick = ()=>toggleAv(i);
+    div.innerHTML = `
+      <input type="checkbox" ${item.selected?'checked':''} onclick="event.stopPropagation();toggleAv(${i})">
+      <span class="av-item-label">${item.label}</span>
+      <input type="number" class="av-item-qty" value="${item.qty||1}" min="1" placeholder="Qty"
+        onclick="event.stopPropagation()" oninput="avItems[${i}].qty=+this.value" style="${item.selected?'':'opacity:0.3;pointer-events:none'}">`;
+    grid.appendChild(div);
+  });
+}
+function toggleAv(i){
+  avItems[i].selected = !avItems[i].selected;
+  if(avItems[i].selected && !avItems[i].qty) avItems[i].qty = 1;
+  renderAvGrid();
+}
+function addAvCustomRow(){
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input type="text" placeholder="Custom AV item" style="width:100%"></td>
+    <td><input type="number" placeholder="1" style="width:60px"></td>
+    <td><input type="text" placeholder="Notes" style="width:100%"></td>
+    <td><button class="remove-btn" onclick="this.closest('tr').remove()">×</button></td>`;
+  document.getElementById('av-custom-body').appendChild(tr);
+}
+
+// ── STAFF GRID ──
+function renderStaffGrid(){
+  const grid = document.getElementById('staff-grid');
+  grid.innerHTML = '';
+  staffRoles.forEach(role=>{
+    const div = document.createElement('div');
+    div.className = 'staff-item';
+    div.innerHTML = `
+      <span class="staff-label">${role}</span>
+      <div class="staff-qty">
+        <button class="qty-btn" onclick="changeStaff('${role}',-1)">−</button>
+        <span class="qty-num" id="sq-${role.replace(/\W/g,'_')}">${staffQty[role]}</span>
+        <button class="qty-btn" onclick="changeStaff('${role}',1)">+</button>
+      </div>`;
+    grid.appendChild(div);
+  });
+}
+function changeStaff(role, delta){
+  staffQty[role] = Math.max(0, (staffQty[role]||0) + delta);
+  const el = document.getElementById('sq-' + role.replace(/\W/g,'_'));
+  if(el) el.textContent = staffQty[role];
+}
+
+// ── HELPERS ──
+function v(id){ const el=document.getElementById(id); return el ? el.value.trim() : ''; }
+function fmt(t){ if(!t) return '—'; const[h,m]=t.split(':'); const hh=+h; return `${hh%12||12}:${m} ${hh<12?'AM':'PM'}`; }
+function fmtDate(d){ if(!d) return '—'; const dt=new Date(d+'T12:00:00'); return dt.toLocaleDateString('en-NG',{day:'numeric',month:'long',year:'numeric'}); }
+
+// ── GENERATE BEO ──
+function generateBEO(){
+  document.getElementById('builder-section').style.display = 'none';
+  document.getElementById('preview-section').style.display = 'block';
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+
+  // Collect bev data
+  const bevRows = [];
+  document.querySelectorAll('#bev-body tr').forEach(tr=>{
+    const cells = tr.querySelectorAll('td input, td select');
+    if(cells.length>=4) bevRows.push({item:cells[0].value,qty:cells[1].value,unit:cells[2].value,notes:cells[3].value});
+  });
+
+  // AV custom
+  const avCustomRows = [];
+  document.querySelectorAll('#av-custom-body tr').forEach(tr=>{
+    const cells = tr.querySelectorAll('td input');
+    if(cells.length>=2) avCustomRows.push({item:cells[0].value,qty:cells[1].value,notes:cells[2]?cells[2].value:''});
+  });
+
+  const selectedAV = avItems.filter(a=>a.selected);
+  const totalStaff = staffRoles.reduce((s,r)=>s+(staffQty[r]||0),0);
+  const eventDate = v('eventDate');
+  const beoNum = v('beoNum') || ('GS-BEO-' + new Date().getFullYear() + '-' + String(Math.floor(Math.random()*999)+1).padStart(3,'0'));
+
+  let html = `
+  <div class="beo-top">
+    <div>
+      <div class="beo-hotel">GALLANI SUITES</div>
+      <div class="beo-hotel-sub">Events &amp; Banqueting Division</div>
+    </div>
+    <div class="beo-doc-title">
+      <div class="beo-doc-label">Banquet Event Order</div>
+      <div class="beo-doc-num">${beoNum}</div>
+      <div class="beo-doc-date">Issued: ${fmtDate(v('dateRaised')||new Date().toISOString().split('T')[0])}</div>
+    </div>
+  </div>
+  <div class="beo-gold-bar"></div>
+
+  <div class="beo-info-strip">
+    <div class="beo-info-cell"><div class="beo-info-key">Event</div><div class="beo-info-val">${v('eventName')||'—'}</div></div>
+    <div class="beo-info-cell"><div class="beo-info-key">Date</div><div class="beo-info-val">${fmtDate(eventDate)} ${v('dayOfWeek')?'('+v('dayOfWeek')+')':''}</div></div>
+    <div class="beo-info-cell"><div class="beo-info-key">Venue</div><div class="beo-info-val">${v('venueName')==='Other'?v('venueCustom')||'—':v('venueName')||'—'}</div></div>
+    <div class="beo-info-cell"><div class="beo-info-key">Guests</div><div class="beo-info-val">${v('guestCount')||'—'}</div></div>
+  </div>
+
+  <div class="beo-section">
+    <div class="beo-section-title">1. Event &amp; Client Details</div>
+    <div class="beo-grid-2">
+      <div>
+        <div class="beo-field"><span class="beo-key">Event Type</span><br><span class="beo-val">${v('eventType')||'—'}</span></div>
+        <div class="beo-field"><span class="beo-key">Client / Host</span><br><span class="beo-val">${v('clientName')||'—'}</span></div>
+        <div class="beo-field"><span class="beo-key">Organisation</span><br><span class="beo-val">${v('clientOrg')||'—'}</span></div>
+      </div>
+      <div>
+        <div class="beo-field"><span class="beo-key">Phone</span><br><span class="beo-val">${v('clientPhone')||'—'}</span></div>
+        <div class="beo-field"><span class="beo-key">Email</span><br><span class="beo-val">${v('clientEmail')||'—'}</span></div>
+        <div class="beo-field"><span class="beo-key">WhatsApp / Alt</span><br><span class="beo-val">${v('clientAlt')||'—'}</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="beo-section">
+    <div class="beo-section-title">2. Event Schedule &amp; Timeline</div>
+    <table class="beo-table">
+      <thead><tr><th>Milestone</th><th>Time</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>Room Handover / Access</td><td>${fmt(v('handoverTime'))}</td><td>${v('venueName')==='Other'?v('venueCustom'):v('venueName')||''}</td></tr>
+        <tr><td>Staff Briefing</td><td>${fmt(v('briefingTime'))}</td><td></td></tr>
+        <tr><td>Setup / Room Configuration</td><td>${fmt(v('setupTime'))}</td><td></td></tr>
+        <tr><td>Event Opens / Guests Arrive</td><td>${fmt(v('startTime'))}</td><td>Expected: ${v('guestCount')||'—'} guests</td></tr>
+        <tr><td>Event Closes</td><td>${fmt(v('endTime'))}</td><td></td></tr>
+        <tr><td>Breakdown &amp; Clear</td><td>${fmt(v('breakdownTime'))}</td><td></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="beo-section">
+    <div class="beo-section-title">3. Room Setup &amp; Configuration</div>
+    <div class="beo-grid-2">
+      <div>
+        <div class="beo-field"><span class="beo-key">Layout Style</span><br><span class="beo-val">${v('layoutStyle')||'—'}</span></div>
+        <div class="beo-field"><span class="beo-key">Table Shape</span><br><span class="beo-val">${v('tableShape')||'—'}</span></div>
+        <div class="beo-field"><span class="beo-key">No. of Tables</span><br><span class="beo-val">${v('tableCount')||'—'}</span></div>
+        <div class="beo-field"><span class="beo-key">Chairs per Table</span><br><span class="beo-val">${v('chairsPerTable')||'—'}</span></div>
+      </div>
+      <div>
+        <div class="beo-field"><span class="beo-key">Head Table</span><br><span class="beo-val">${v('headTable')||'—'}</span></div>
+        <div class="beo-field"><span class="beo-key">Stage / Podium</span><br><span class="beo-val">${v('stageReq')||'—'}</span></div>
+        <div class="beo-field"><span class="beo-key">Dance Floor</span><br><span class="beo-val">${v('danceFloor')||'—'}</span></div>
+        <div class="beo-field"><span class="beo-key">Air Conditioning</span><br><span class="beo-val">${v('acSetting')||'—'}</span></div>
+      </div>
+    </div>
+    ${v('roomNotes')?`<div style="margin-top:8px"><div class="beo-key">Room Setup Notes</div><div class="beo-notes-box">${v('roomNotes')}</div></div>`:''}
+  </div>
+
+  <div class="beo-section">
+    <div class="beo-section-title">4. Food &amp; Beverage</div>`;
+
+  if(meals.length > 0 && meals.some(m=>m.items.length>0)){
+    html += `<table class="beo-table" style="margin-bottom:10px">
+      <thead><tr><th colspan="4">Meal Period / Item</th><th>Qty</th><th>Unit</th><th>Notes</th></tr></thead>
+      <tbody>`;
+    meals.forEach(m=>{
+      if(!m.items.length) return;
+      html += `<tr class="beo-meal-head"><td colspan="7">${m.period}</td></tr>`;
+      m.items.forEach(item=>{
+        html += `<tr><td colspan="4">${item.dish||'—'}</td><td>${item.qty||'—'}</td><td>${item.unit}</td><td>${item.notes||''}</td></tr>`;
+      });
+    });
+    html += `</tbody></table>`;
+  } else {
+    html += `<p style="color:var(--muted);font-style:italic;font-size:12px;margin-bottom:8px">No F&B items specified.</p>`;
+  }
+
+  if(bevRows.length > 0){
+    html += `<div style="font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--muted);margin:10px 0 4px">Beverage Service</div>`;
+    html += `<table class="beo-table">
+      <thead><tr><th>Beverage</th><th>Qty</th><th>Unit</th><th>Notes</th></tr></thead><tbody>`;
+    bevRows.forEach(b=>{
+      html+=`<tr><td>${b.item}</td><td>${b.qty}</td><td>${b.unit}</td><td>${b.notes}</td></tr>`;
+    });
+    html+=`</tbody></table>`;
+  }
+  html += `
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px">
+      <div class="beo-field"><span class="beo-key">Bar Type</span><br><span class="beo-val">${v('barType')||'—'}</span></div>
+      <div class="beo-field"><span class="beo-key">Bar Hours</span><br><span class="beo-val">${v('barHours')||'—'}</span></div>
+      <div class="beo-field"><span class="beo-key">Dietary Restrictions</span><br><span class="beo-val">${v('dietaryRestrictions')||'None noted'}</span></div>
+      <div class="beo-field"><span class="beo-key">Allergy Alerts</span><br><span class="beo-val">${v('allergyAlerts')||'None noted'}</span></div>
+    </div>
+    ${v('fnbNotes')?`<div style="margin-top:8px"><div class="beo-key">F&B Notes</div><div class="beo-notes-box">${v('fnbNotes')}</div></div>`:''}
+  </div>`;
+
+  html += `<div class="beo-section">
+    <div class="beo-section-title">5. Audio-Visual &amp; Technical</div>`;
+  if(selectedAV.length > 0 || avCustomRows.length > 0){
+    html += `<div class="beo-av-list">`;
+    selectedAV.forEach(a=>{ html+=`<div class="beo-av-item"><div class="beo-av-dot"></div>${a.label} × ${a.qty}</div>`; });
+    avCustomRows.forEach(a=>{ if(a.item) html+=`<div class="beo-av-item"><div class="beo-av-dot"></div>${a.item} × ${a.qty||1}${a.notes?' ('+a.notes+')':''}</div>`; });
+    html += `</div>`;
+  } else {
+    html += `<p style="color:var(--muted);font-style:italic;font-size:12px">No AV items specified.</p>`;
+  }
+  if(v('avCompany')) html+=`<div style="margin-top:8px"><div class="beo-key">External AV Company</div><div class="beo-val">${v('avCompany')} — ${v('avContact')||''}</div></div>`;
+  if(v('avNotes')) html+=`<div style="margin-top:8px"><div class="beo-key">Technical Notes</div><div class="beo-notes-box">${v('avNotes')}</div></div>`;
+  html += `</div>`;
+
+  const activeStaff = staffRoles.filter(r=>staffQty[r]>0);
+  html += `<div class="beo-section">
+    <div class="beo-section-title">6. Staffing — Total: ${totalStaff} staff</div>
+    ${activeStaff.length?`<div class="beo-staff-table">${activeStaff.map(r=>`<div class="beo-staff-row"><span>${r}</span><span class="beo-staff-num">${staffQty[r]}</span></div>`).join('')}</div>`:'<p style="color:var(--muted);font-style:italic;font-size:12px">No staffing assigned.</p>'}
+    ${v('banquetCaptain')?`<div style="margin-top:10px"><div class="beo-key">Banquet Captain / Supervisor</div><div class="beo-val">${v('banquetCaptain')}</div></div>`:''}
+    ${v('uniformReq')?`<div style="margin-top:6px"><div class="beo-key">Uniform</div><div class="beo-val">${v('uniformReq')}</div></div>`:''}
+    ${v('staffNotes')?`<div style="margin-top:8px"><div class="beo-key">Staffing Notes</div><div class="beo-notes-box">${v('staffNotes')}</div></div>`:''}
+  </div>`;
+
+  const hasDecor = v('colourScheme')||v('decorContractor')||v('decorNotes');
+  const hasFinance = v('deposit')||v('balance');
+  const hasSpecial = v('clientRequests')||hasDecor||hasFinance||v('billingNotes');
+
+  // ── DEPARTMENTAL RESPONSIBILITIES ──
+  html += `<div class="beo-section"><div class="beo-section-title">7. Departmental Responsibilities</div>`;
+  const activeDepts = departments.filter(d=>d.tasks.some(t=>t.task)||d.notes);
+  if(activeDepts.length > 0){
+    html += `<table class="beo-dept-table">
+      <thead><tr><th>Department</th><th>HOD / In-Charge</th><th>Key Responsibilities</th><th>Status</th></tr></thead><tbody>`;
+    departments.forEach(dept=>{
+      const activeTasks = dept.tasks.filter(t=>t.task);
+      if(!activeTasks.length && !dept.notes) return;
+      const statusClass = dept.status==='confirmed'?'confirmed':dept.status==='attention'?'attention':'pending';
+      const statusLabel = dept.status==='confirmed'?'Confirmed':dept.status==='attention'?'Needs Attention':'Pending';
+      const taskList = activeTasks.map(t=>{const c=t.done?'#1B6B45':'var(--muted)';const s=t.done?'text-decoration:line-through;color:var(--muted)':'';return`<div style="display:flex;align-items:baseline;gap:5px;padding:1px 0"><span style="color:${c};font-size:10px">${t.done?'✓':'○'}</span><span style="${s}">${t.task}${t.assignee?` <em style="font-size:11px;color:var(--muted)">(${t.assignee})</em>`:''}</span></div>`;}).join('');
+      html += `<tr>
+        <td><span class="beo-dept-dept">${dept.icon} ${dept.name}</span></td>
+        <td style="font-size:12px">${dept.hod||'—'}</td>
+        <td style="font-size:12px">${taskList||'—'}${dept.notes?`<div style="margin-top:4px;font-style:italic;color:var(--muted);font-size:11px">${dept.notes}</div>`:''}</td>
+        <td><span class="beo-status-chip ${statusClass}">${statusLabel}</span></td>
+      </tr>`;
+    });
+    html += `</tbody></table>`;
+    if(v('deptCoordNotes')) html+=`<div style="margin-top:8px"><div class="beo-key">Coordination Notes</div><div class="beo-notes-box">${v('deptCoordNotes')}</div></div>`;
+    if(v('hodBriefingDate')||v('hodBriefingTime')) html+=`<div style="margin-top:8px"><div class="beo-key">HOD Briefing</div><div class="beo-val">${fmtDate(v('hodBriefingDate'))}${v('hodBriefingTime')?' at '+fmt(v('hodBriefingTime')):''}</div></div>`;
+  } else {
+    html += `<p style="color:var(--muted);font-style:italic;font-size:12px">No departmental responsibilities assigned.</p>`;
+  }
+  html += `</div>`;
+
+  if(hasSpecial){
+    html+=`<div class="beo-section"><div class="beo-section-title">8. Special Instructions &amp; Notes</div>`;
+    if(v('clientRequests')) html+=`<div class="beo-field" style="margin-bottom:8px"><div class="beo-key">Client Special Requests</div><div class="beo-notes-box">${v('clientRequests')}</div></div>`;
+    if(hasDecor){
+      html+=`<div class="beo-grid-2" style="margin-bottom:8px">`;
+      if(v('colourScheme')) html+=`<div class="beo-field"><div class="beo-key">Colour Theme</div><div class="beo-val">${v('colourScheme')}</div></div>`;
+      if(v('decorContractor')) html+=`<div class="beo-field"><div class="beo-key">Décor Contractor</div><div class="beo-val">${v('decorContractor')} ${v('decorContact')?'— '+v('decorContact'):''}</div></div>`;
+      html+=`</div>`;
+      if(v('decorNotes')) html+=`<div class="beo-field"><div class="beo-key">Décor Notes</div><div class="beo-notes-box">${v('decorNotes')}</div></div>`;
+    }
+    if(hasFinance){
+      html+=`<div class="beo-grid-2" style="margin-top:8px">`;
+      if(v('deposit')) html+=`<div class="beo-field"><div class="beo-key">Deposit Paid</div><div class="beo-val">₦${v('deposit')}</div></div>`;
+      if(v('balance')) html+=`<div class="beo-field"><div class="beo-key">Balance Due</div><div class="beo-val">₦${v('balance')} ${v('paymentDue')?'by '+fmtDate(v('paymentDue')):''}</div></div>`;
+      html+=`</div>`;
+    }
+    html+=`</div>`;
+  }
+
+  html+=`
+  <div class="beo-sign-row">
+    <div class="beo-sign">
+      <div class="beo-sign-line"></div>
+      <div class="beo-sign-label">Event Coordinator / Prepared By</div>
+    </div>
+    <div class="beo-sign">
+      <div class="beo-sign-line"></div>
+      <div class="beo-sign-label">F&amp;B Manager / HOD Approval</div>
+    </div>
+    <div class="beo-sign">
+      <div class="beo-sign-line"></div>
+      <div class="beo-sign-label">Client Acknowledgement &amp; Date</div>
+    </div>
+  </div>
+  <div class="beo-footer">GALLANI SUITES — EVENTS &amp; BANQUETING DIVISION &nbsp;|&nbsp; ${beoNum} &nbsp;|&nbsp; CONFIDENTIAL &amp; INTERNAL USE ONLY</div>`;
+
+  document.getElementById('beo-doc').innerHTML = html;
+  document.getElementById('preview-section').scrollIntoView({behavior:'smooth'});
+}
+
+function backToEdit(){
+  document.getElementById('preview-section').style.display='none';
+  document.getElementById('builder-section').style.display='block';
+  document.querySelector('.tab-btn').classList.add('active');
+  document.getElementById('tab-event').style.display='block';
+}
+</script>
+</body>
+</html>
